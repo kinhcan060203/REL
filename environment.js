@@ -9,10 +9,11 @@ class Environment{
     this.count_1 = 0;
     this.count_2 = 0;
     this.winner = 0;
+    this.prev2 = []
+    this.prev1 = []
     this.ended = false;
     this.num_states = Math.pow(3,this.board_length*this.board_length);
     this.player_turn = 1;
-    this.indexs=[]
     for(let i=0;i<Math.pow(this.board_length,2);i++){
       this.board.push(0);
     }
@@ -50,25 +51,30 @@ class Environment{
 
     }
 
-    if(this.is_game_over() && (this.count_1 === 2 || this.count_2 === 2)){
-        if (this.player_turn === 1){
-            this.count_1 +=1
-
-        }
-        if (this.player_turn === -1){
-            this.count_0 +=1
-
-        }
-        if (this.indexs.length && show_ui) {
-            this.indexs.forEach(item => {
-                let thisid = "#btn_ttt_click"+item.toString();
-                $(thisid).toggleClass('blue yellow');
+    if(this.is_game_over()){
+        
+        if (this.prev2.length === 2 && show_ui) {
+            this.prev2.forEach(items => {
+                items.forEach((item, i) => {
+                    let thisid = "#btn_ttt_click" + item.toString();
+                    if (!$(thisid).hasClass('blue') && !$(thisid).hasClass('yellow')) {
+                        $(thisid).toggleClass('blue yellow');
+                    }
+                });
             });
-          }
-          this.indexs = []
+        }
+        if (this.prev1.length === 2 && show_ui) {
+            this.prev1.forEach(items => {
+                items.forEach((item, i) => {
+                    let thisid = "#btn_ttt_click" + item.toString();
+                    if (!$(thisid).hasClass('blue') && !$(thisid).hasClass('yellow')) {
+                        $(thisid).toggleClass('blue yellow');
+                    }
+                });
+            });
+        }
       this.ended = true;
       // console.log('game ended, winner ', this.winner)
-
     }else{
       this.player_turn = this.player_turn * -1;
     }
@@ -96,11 +102,13 @@ class Environment{
         $(thisid).text('.');
       }
       this.board[i] = 0;
-      this.indexs = []
     }
 
     this.ended = false;
-
+    this.count_1 = 0
+    this.count_2 = 0
+    this.prev2 = []
+    this.prev1 = []
     if(reset_player){
       this.player_turn = 1;
     }
@@ -145,12 +153,34 @@ class Environment{
     for (let i = 0; i < arr.length - 3; i++) {
         if ((arr[i] === 1 && arr[i + 1] === 1 && arr[i + 2] === 1  && arr[i + 3] === 1)){
             this.winner = 1; 
-            this.indexs = [indexs[i], indexs[i+1], indexs[i+2], indexs[i+3]]
-            return true;
+            let a = [indexs[i], indexs[i+1], indexs[i+2], indexs[i+3]]
+            if (!this.prev1.some(prev => 
+                prev[0] === a[0] && 
+                prev[1] === a[1] && 
+                prev[2] === a[2] && 
+                prev[3] === a[3])) {
+                this.prev1.push(a);
+                this.count_1 += 1;
+            
+                return true;
+            }
+
         }
         if (arr[i] === -1 && arr[i + 1] === -1 && arr[i + 2] === -1 && arr[i + 3] === -1){
             this.winner = -1;
-            this.indexs = [indexs[i], indexs[i+1], indexs[i+2], indexs[i+3]]
+
+            let a = [indexs[i], indexs[i+1], indexs[i+2], indexs[i+3]]
+            if (!this.prev2.some(prev => 
+                prev[0] === a[0] && 
+                prev[1] === a[1] && 
+                prev[2] === a[2] && 
+                prev[3] === a[3])) {
+                
+                this.prev2.push(a);
+                this.count_2 += 1;
+            
+                return true;
+            }
             return true;
         }
     }
@@ -168,23 +198,22 @@ class Environment{
     return { arr, indexs };
     }
   is_game_over(test_board=[]){
-
     if(test_board.length==0){
       test_board = this.board;
     }
 
-    for(let i=0;i<(this.board_length);i+=this.board_length){
+    for(let i=0;i<(this.board_length*this.board_length);i+=this.board_length){
       let arr = []
       let indexs = []
       for(let j=i;j<i+this.board_length;j+=1){
         arr.push(test_board[j])
         indexs.push(j)
-
       }
       if(this.hasThreeConsecutive(arr, indexs)){
-        this.ended = true;
-
-        return true;
+        if (this.count_2===2 || this.count_1===2) {
+            return true;
+        }
+ 
       }
 
     }
@@ -198,9 +227,11 @@ class Environment{
         indexs.push(j)
 
       }
+
       if(this.hasThreeConsecutive(arr, indexs)){
-        this.ended = true;
-        return true;
+        if (this.count_2===2 || this.count_1===2) {
+            return true;
+        }
       }
     }
 
@@ -208,11 +239,18 @@ class Environment{
 
     for (let start = 0; start < this.board_length - 3; start++) {
         let { arr, indexs } = this.getDiagonalSum(start, this.board_length + 1, this.board_length*(this.board_length - start));
-
         if(this.hasThreeConsecutive(arr, indexs)){
-
-            this.ended = true;
-            return true;
+            if (this.count_2===2 || this.count_1===2) {
+                return true;
+            }
+          }
+    }
+    for (let start = this.board_length; start < this.board_length*(this.board_length-1)+1; start+=this.board_length) {
+        let { arr, indexs } = this.getDiagonalSum(start, this.board_length + 1, this.board_length**2);
+        if(this.hasThreeConsecutive(arr, indexs)){
+            if (this.count_2===2 || this.count_1===2) {
+                return true;
+            }
           }
     }
 
@@ -220,9 +258,17 @@ class Environment{
     for (let start = this.board_length - 1; start > 0; start--) {
         let { arr, indexs } = this.getDiagonalSum(start, this.board_length - 1, this.board_length*(start) + 1);
         if(this.hasThreeConsecutive(arr, indexs)){
-
-            this.ended = true;
-            return true;
+            if (this.count_2===2 || this.count_1===2) {
+                return true;
+            }
+        }
+    }
+    for (let start = this.board_length*2-1; start < this.board_length*(this.board_length-3); start+=this.board_length) {
+        let { arr, indexs } = this.getDiagonalSum(start, this.board_length - 1, this.board_length**2-3);
+        if(this.hasThreeConsecutive(arr, indexs)){
+            if (this.count_2===2 || this.count_1===2) {
+                return true;
+            }
         }
     }
 

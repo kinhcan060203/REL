@@ -28,9 +28,8 @@ async function play_game(p1, p2, show_ui=true, simulation=false){
 
   let current_agent = p1;
 
-  for(let i=0; i<8*8; i++){
+  for(let i=0; i<8*8*100; i++){
     let action = current_agent.take_action(environment);
-
     // console.log(current_agent.name, action, environment.get_state());
     environment.grid_select(action, show_ui);
 
@@ -48,7 +47,7 @@ async function play_game(p1, p2, show_ui=true, simulation=false){
     }
 
     if(simulation){
-      await sleep(1000);
+      await sleep(10);
     }
   }
 
@@ -71,7 +70,6 @@ function train_agents(){
 
   let state_winner_triples = get_state_hash_and_winner(environment);
   environment.reset_game(true, false)
-  console.log(environment.board)
 
   let V_list = initial_values(environment, state_winner_triples, agentA.name, agentB.name);
   agentA.set_v(V_list[0]);
@@ -122,14 +120,12 @@ function play_with_agent(){
     let thisid = "#btn_ttt_prob"+i.toString();
     $(thisid).text(agent_probability[i]);
   }
-  console.log(next_move)
   environment.grid_select(next_move);
 
   agentA.update_state_history(environment.get_state());
 
   if(environment.ended){
     agentA.update(environment);
-    console.log('ended, winner', environment.winner);
     if(environment.winner == 1){
       $(message).text("Agent won. Reset game?");
     }else if(environment.winner == -1){
@@ -285,4 +281,4 @@ function generate_epsilon_greedy_charts(){
 }
 
 train_agents();
-generate_epsilon_greedy_charts();
+// generate_epsilon_greedy_charts();
