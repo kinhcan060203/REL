@@ -1,5 +1,5 @@
 
-let environment = new Environment(3);
+let environment = new Environment(8);
 let agentA = new Agent(1);
 let agentB = new Agent(-1);
 let input_episodes = 1;
@@ -28,7 +28,7 @@ async function play_game(p1, p2, show_ui=true, simulation=false){
 
   let current_agent = p1;
 
-  for(let i=0; i<3*3; i++){
+  for(let i=0; i<8*8; i++){
     let action = current_agent.take_action(environment);
 
     // console.log(current_agent.name, action, environment.get_state());
@@ -70,7 +70,8 @@ function train_agents(){
   let episode = input_episodes;
 
   let state_winner_triples = get_state_hash_and_winner(environment);
-//   environment.reset_game(true, false)
+  environment.reset_game(true, false)
+  console.log(environment.board)
 
   let V_list = initial_values(environment, state_winner_triples, agentA.name, agentB.name);
   agentA.set_v(V_list[0]);
@@ -112,7 +113,7 @@ function play_with_agent(){
 
   let next_move = action[0];
   strategy = action[1];
-    agent_probability = Array(9).fill(0);
+    agent_probability = Array(8*8).fill(0);
   for(let i=0;i<action[2].length;i++){
     agent_probability[action[2][i][0]] = (action[2][i][2] * 100).toFixed(1) + "%";
   }

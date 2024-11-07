@@ -6,6 +6,8 @@ class Environment{
     this.board_length = board_length;
     this.p1 = 1;
     this.p2 = -1;
+    this.count_1 = 0;
+    this.count_2 = 0;
     this.winner = 0;
     this.ended = false;
     this.num_states = Math.pow(3,this.board_length*this.board_length);
@@ -48,14 +50,21 @@ class Environment{
 
     }
 
-    if(this.is_game_over()){
+    if(this.is_game_over() && (this.count_1 === 2 || this.count_2 === 2)){
+        if (this.player_turn === 1){
+            this.count_1 +=1
 
-        // if (this.indexs.length && show_ui) {
-        //     this.indexs.forEach(item => {
-        //         let thisid = "#btn_ttt_click"+item.toString();
-        //         $(thisid).toggleClass('blue yellow');
-        //     });
-        //   }
+        }
+        if (this.player_turn === -1){
+            this.count_0 +=1
+
+        }
+        if (this.indexs.length && show_ui) {
+            this.indexs.forEach(item => {
+                let thisid = "#btn_ttt_click"+item.toString();
+                $(thisid).toggleClass('blue yellow');
+            });
+          }
           this.indexs = []
       this.ended = true;
       // console.log('game ended, winner ', this.winner)
@@ -133,15 +142,15 @@ class Environment{
   }
 
   hasThreeConsecutive(arr, indexs) {
-    for (let i = 0; i < arr.length - 2; i++) {
-        if ((arr[i] === 1 && arr[i + 1] === 1 && arr[i + 2] === 1)){
-            this.winner = 1;
-            this.indexs = [indexs[i], indexs[i+1], indexs[i+2]]
+    for (let i = 0; i < arr.length - 3; i++) {
+        if ((arr[i] === 1 && arr[i + 1] === 1 && arr[i + 2] === 1  && arr[i + 3] === 1)){
+            this.winner = 1; 
+            this.indexs = [indexs[i], indexs[i+1], indexs[i+2], indexs[i+3]]
             return true;
         }
-        if (arr[i] === -1 && arr[i + 1] === -1 && arr[i + 2] === -1){
+        if (arr[i] === -1 && arr[i + 1] === -1 && arr[i + 2] === -1 && arr[i + 3] === -1){
             this.winner = -1;
-            this.indexs = [indexs[i], indexs[i+1], indexs[i+2]]
+            this.indexs = [indexs[i], indexs[i+1], indexs[i+2], indexs[i+3]]
             return true;
         }
     }
@@ -197,7 +206,7 @@ class Environment{
 
     // diagonals
 
-    for (let start = 0; start < this.board_length - 2; start++) {
+    for (let start = 0; start < this.board_length - 3; start++) {
         let { arr, indexs } = this.getDiagonalSum(start, this.board_length + 1, this.board_length*(this.board_length - start));
 
         if(this.hasThreeConsecutive(arr, indexs)){
@@ -233,14 +242,6 @@ class Environment{
     return false;
   }
 
-  check_if_player_won(sum){
-    if(sum==-3){
-      this.winner = -1;
-      return true;
-    }else if(sum==3){
-      this.winner = 1;
-      return true;
-    }
-  }
+
 
 }

@@ -3,7 +3,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
-  <title>Reinforcement Learning Tic Tac Toe with Value Function - Hong Jing (Jingles)</title>
+  <title>Tic Tac Toe</title>
   <link rel="icon" type="image/png" href="https://jinglescode.github.io/assets/img/favicon.png">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel='stylesheet' type='text/css'>
@@ -17,7 +17,7 @@
     gtag('js', new Date());
     gtag('config', 'UA-49548145-2');
   </script>
-  <meta property="og:title" content="Reinforcement Learning Tic Tac Toe with Value Function - Hong Jing (Jingles)"/>
+  <meta property="og:title" content="Reinforcement Learning"/>
   <meta property="og:image" content="https://jinglescode.github.io/assets/img/posts/rl-value-func-00.jpg"/>
   <meta property="og:description" content="A simple reinforcement learning algorithm for agents to learn the game tic-tac-toe. This demonstrate the purpose of the value function."/>
   <meta property="og:url" content="https://jinglescode.github.io/time-series-forecasting-tensorflowjs" />
@@ -36,7 +36,7 @@
             <div class="row">
               <div class="input-field col s12">
                 <label for="input_episodes">Episodes</label>
-                <input type="text" id="input_episodes" placeholder="example: 10000" value="10000">
+                <input type="text" id="input_episodes" placeholder="example: 10000" value="0">
               </div>
               <div class="input-field col s12">
                 <label for="input_agent1_explore_probability">Agent 1 Explore Probability</label>
@@ -77,22 +77,87 @@
                       <td><button class="waves-effect waves-light btn white" id="btn_ttt_click0" onclick="human_player_move(0)">.</button></td>
                       <td><button class="waves-effect waves-light btn white" id="btn_ttt_click1" onclick="human_player_move(1)">.</button></td>
                       <td><button class="waves-effect waves-light btn white" id="btn_ttt_click2" onclick="human_player_move(2)">.</button></td>
-                    </tr>
-                    <tr>
                       <td><button class="waves-effect waves-light btn white" id="btn_ttt_click3" onclick="human_player_move(3)">.</button></td>
                       <td><button class="waves-effect waves-light btn white" id="btn_ttt_click4" onclick="human_player_move(4)">.</button></td>
                       <td><button class="waves-effect waves-light btn white" id="btn_ttt_click5" onclick="human_player_move(5)">.</button></td>
-                    </tr>
-                    <tr>
                       <td><button class="waves-effect waves-light btn white" id="btn_ttt_click6" onclick="human_player_move(6)">.</button></td>
                       <td><button class="waves-effect waves-light btn white" id="btn_ttt_click7" onclick="human_player_move(7)">.</button></td>
-                      <td><button class="waves-effect waves-light btn white" id="btn_ttt_click8" onclick="human_player_move(8)">.</button></td>
                     </tr>
-   
+                    <tr>
+                      <td><button class="waves-effect waves-light btn white" id="btn_ttt_click8" onclick="human_player_move(8)">.</button></td>
+                      <td><button class="waves-effect waves-light btn white" id="btn_ttt_click9" onclick="human_player_move(9)">.</button></td>
+                      <td><button class="waves-effect waves-light btn white" id="btn_ttt_click10" onclick="human_player_move(10)">.</button></td>
+                      <td><button class="waves-effect waves-light btn white" id="btn_ttt_click11" onclick="human_player_move(11)">.</button></td>
+                      <td><button class="waves-effect waves-light btn white" id="btn_ttt_click12" onclick="human_player_move(12)">.</button></td>
+                      <td><button class="waves-effect waves-light btn white" id="btn_ttt_click13" onclick="human_player_move(13)">.</button></td>
+                      <td><button class="waves-effect waves-light btn white" id="btn_ttt_click14" onclick="human_player_move(14)">.</button></td>
+                      <td><button class="waves-effect waves-light btn white" id="btn_ttt_click15" onclick="human_player_move(15)">.</button></td>
+                    </tr>
+                    <tr>
+                      <td><button class="waves-effect waves-light btn white" id="btn_ttt_click16" onclick="human_player_move(16)">.</button></td>
+                      <td><button class="waves-effect waves-light btn white" id="btn_ttt_click17" onclick="human_player_move(17)">.</button></td>
+                      <td><button class="waves-effect waves-light btn white" id="btn_ttt_click18" onclick="human_player_move(18)">.</button></td>
+                      <td><button class="waves-effect waves-light btn white" id="btn_ttt_click19" onclick="human_player_move(19)">.</button></td>
+                      <td><button class="waves-effect waves-light btn white" id="btn_ttt_click20" onclick="human_player_move(20)">.</button></td>
+                      <td><button class="waves-effect waves-light btn white" id="btn_ttt_click21" onclick="human_player_move(21)">.</button></td>
+                      <td><button class="waves-effect waves-light btn white" id="btn_ttt_click22" onclick="human_player_move(22)">.</button></td>
+                      <td><button class="waves-effect waves-light btn white" id="btn_ttt_click23" onclick="human_player_move(23)">.</button></td>
+                    </tr>
+                    <tr>
+                      <td><button class="waves-effect waves-light btn white" id="btn_ttt_click24" onclick="human_player_move(24)">.</button></td>
+                      <td><button class="waves-effect waves-light btn white" id="btn_ttt_click25" onclick="human_player_move(25)">.</button></td>
+                      <td><button class="waves-effect waves-light btn white" id="btn_ttt_click26" onclick="human_player_move(26)">.</button></td>
+                      <td><button class="waves-effect waves-light btn white" id="btn_ttt_click27" onclick="human_player_move(27)">.</button></td>
+                      <td><button class="waves-effect waves-light btn white" id="btn_ttt_click28" onclick="human_player_move(28)">.</button></td>
+                      <td><button class="waves-effect waves-light btn white" id="btn_ttt_click29" onclick="human_player_move(29)">.</button></td>
+                      <td><button class="waves-effect waves-light btn white" id="btn_ttt_click30" onclick="human_player_move(30)">.</button></td>
+                      <td><button class="waves-effect waves-light btn white" id="btn_ttt_click31" onclick="human_player_move(31)">.</button></td>
+                    </tr>
+                    <tr>
+                      <td><button class="waves-effect waves-light btn white" id="btn_ttt_click32" onclick="human_player_move(32)">.</button></td>
+                      <td><button class="waves-effect waves-light btn white" id="btn_ttt_click33" onclick="human_player_move(33)">.</button></td>
+                      <td><button class="waves-effect waves-light btn white" id="btn_ttt_click34" onclick="human_player_move(34)">.</button></td>
+                      <td><button class="waves-effect waves-light btn white" id="btn_ttt_click35" onclick="human_player_move(35)">.</button></td>
+                      <td><button class="waves-effect waves-light btn white" id="btn_ttt_click36" onclick="human_player_move(36)">.</button></td>
+                      <td><button class="waves-effect waves-light btn white" id="btn_ttt_click37" onclick="human_player_move(37)">.</button></td>
+                      <td><button class="waves-effect waves-light btn white" id="btn_ttt_click38" onclick="human_player_move(38)">.</button></td>
+                      <td><button class="waves-effect waves-light btn white" id="btn_ttt_click39" onclick="human_player_move(39)">.</button></td>
+                    </tr>
+                    <tr>
+                      <td><button class="waves-effect waves-light btn white" id="btn_ttt_click40" onclick="human_player_move(40)">.</button></td>
+                      <td><button class="waves-effect waves-light btn white" id="btn_ttt_click41" onclick="human_player_move(41)">.</button></td>
+                      <td><button class="waves-effect waves-light btn white" id="btn_ttt_click42" onclick="human_player_move(42)">.</button></td>
+                      <td><button class="waves-effect waves-light btn white" id="btn_ttt_click43" onclick="human_player_move(43)">.</button></td>
+                      <td><button class="waves-effect waves-light btn white" id="btn_ttt_click44" onclick="human_player_move(44)">.</button></td>
+                      <td><button class="waves-effect waves-light btn white" id="btn_ttt_click45" onclick="human_player_move(45)">.</button></td>
+                      <td><button class="waves-effect waves-light btn white" id="btn_ttt_click46" onclick="human_player_move(46)">.</button></td>
+                      <td><button class="waves-effect waves-light btn white" id="btn_ttt_click47" onclick="human_player_move(47)">.</button></td>
+                    </tr>
+                    <tr>
+                      <td><button class="waves-effect waves-light btn white" id="btn_ttt_click48" onclick="human_player_move(48)">.</button></td>
+                      <td><button class="waves-effect waves-light btn white" id="btn_ttt_click49" onclick="human_player_move(49)">.</button></td>
+                      <td><button class="waves-effect waves-light btn white" id="btn_ttt_click50" onclick="human_player_move(50)">.</button></td>
+                      <td><button class="waves-effect waves-light btn white" id="btn_ttt_click51" onclick="human_player_move(51)">.</button></td>
+                      <td><button class="waves-effect waves-light btn white" id="btn_ttt_click52" onclick="human_player_move(52)">.</button></td>
+                      <td><button class="waves-effect waves-light btn white" id="btn_ttt_click53" onclick="human_player_move(53)">.</button></td>
+                      <td><button class="waves-effect waves-light btn white" id="btn_ttt_click54" onclick="human_player_move(54)">.</button></td>
+                      <td><button class="waves-effect waves-light btn white" id="btn_ttt_click55" onclick="human_player_move(55)">.</button></td>
+                    </tr>
+                    <tr>
+                      <td><button class="waves-effect waves-light btn white" id="btn_ttt_click56" onclick="human_player_move(56)">.</button></td>
+                      <td><button class="waves-effect waves-light btn white" id="btn_ttt_click57" onclick="human_player_move(57)">.</button></td>
+                      <td><button class="waves-effect waves-light btn white" id="btn_ttt_click58" onclick="human_player_move(58)">.</button></td>
+                      <td><button class="waves-effect waves-light btn white" id="btn_ttt_click59" onclick="human_player_move(59)">.</button></td>
+                      <td><button class="waves-effect waves-light btn white" id="btn_ttt_click60" onclick="human_player_move(60)">.</button></td>
+                      <td><button class="waves-effect waves-light btn white" id="btn_ttt_click61" onclick="human_player_move(61)">.</button></td>
+                      <td><button class="waves-effect waves-light btn white" id="btn_ttt_click62" onclick="human_player_move(62)">.</button></td>
+                      <td><button class="waves-effect waves-light btn white" id="btn_ttt_click63" onclick="human_player_move(63)">.</button></td>
+                    </tr>
                   </table>
                   
+                  
               </div>
-              <div class="col s12">
+              <!-- <div class="col s12">
                 <span class="card-title">Agent's Value Function</span>
                 <table>
                   <tr>
@@ -111,7 +176,7 @@
                     <td><span id="btn_ttt_prob8">.</span></td>
                   </tr>
                 </table>
-              </div>
+              </div> -->
               <div class="col s12">
                 <button class="waves-effect waves-light btn" id="btn_reset_game" onclick="reset_game()">Reset Game</button>
               </div>
